@@ -1,11 +1,13 @@
 const display = document.getElementById('display');
 const history = document.getElementById('history');
 
-function clearDisplay() { //очищаем экран
+// Очищаем экран
+function clearDisplay() {
     display.value = '';
   }
 
-function calculate() { //вычисления
+// Вычисляем значение выражения
+function calculate() { 
     try {
       const result = eval(display.value);
       addToHistory(result);
@@ -14,69 +16,53 @@ function calculate() { //вычисления
     }
   }
 
-  function appendToDisplay(value) { //добавляем результат на экран
+  // Добавляем символы на экран
+  function appendToDisplay(value) { 
     const currentValue = display.value;
     const lastChar = currentValue[currentValue.length - 1];
+    const lastNumber = currentValue.split(/[\+\-\*\/]/).pop();
 
     const isLastCharOperator = ['+', '-', '*', '/'].includes(lastChar);
-
     const isNewCharOperator = ['+', '-', '*', '/'].includes(value);
-
-    const isLastCharDigit = ['1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(lastChar);
-
-    const isNewCharDigit = ['1', '2', '3', '4', '5', '6', '7', '8', '9'].includes(value);
-
+    const isLastCharDigit = /\d/.test(lastChar);
+    const isNewCharDigit = /\d/.test(value);
     const isNewCharZero = value === '0';
-
     const isNewCharDot = value === '.';
 
-    if (isNewCharDot) {
-        const lastNumber = currentValue.split(/[\+\-\*\/]/).pop();
-        if (lastNumber.includes('.') || isLastCharOperator || currentValue === '') {
+    // Обработка точки
+    if (isNewCharDot && (lastNumber.includes('.') || isLastCharOperator || currentValue === '')) {
+        return;
+    }
+
+    // Обработка нуля
+    if (isNewCharZero) {
+        if (!(isLastCharOperator || isLastCharDigit || lastChar === '.' || currentValue === '' || lastNumber.includes('.') || lastNumber[0] !== '0')) {
             return;
         }
     }
-    
-    if (isNewCharZero) {
-      const lastNumber = currentValue.split(/[\+\-\*\/]/).pop();
-      if (isLastCharOperator || isLastCharDigit || lastChar === '.' || currentValue === '' || lastNumber.includes('.') || lastNumber[0] !== '0') {
-        display.value += value;
+
+    // Обработка цифр
+    if (isNewCharDigit && lastNumber === '0') {
         return;
-      }
-      else if (lastChar === '0') {
-        return;
-      }
-      else {
-        return;
-      }
-    }
-    if (isNewCharDigit) {
-      const lastNumber = currentValue.split(/[\+\-\*\/]/).pop(); // Получаем последнее число
-      if (lastNumber === '0') {
-          return;
-      }
-      display.value += value;
-      return;
     }
 
+    // Обработка операторов
     if (isNewCharOperator) {
-      if (isLastCharDigit || lastChar === '0') {
-        display.value += value;
-        return;
-      }
-      else if (isLastCharOperator) {
-        display.value = currentValue.slice(0, -1) + value; 
-      }
-      else {
-        return;
-      }
+        if (!(isLastCharDigit || lastChar === '0')) {
+            if (isLastCharOperator) {
+                display.value = currentValue.slice(0, -1) + value;
+                return;
+            }
+            return;
+        }
     }
-    else {
-      display.value += value;
-    }
+
+    // Общий случай: добавление символа
+    display.value += value;
 }
 
-function addToHistory(result) { //добавляем в историю
+// Добавляем выражение и результат вычислений в историю
+function addToHistory(result) {
     const historyEntry = document.createElement('div');
     historyEntry.textContent = display.value + " = " + result;
     history.appendChild(historyEntry);
