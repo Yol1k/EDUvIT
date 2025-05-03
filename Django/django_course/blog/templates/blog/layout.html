@@ -1,0 +1,24 @@
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static 'blog/css/layout.css' %}">
+    {% block static %}
+    {% endblock %}
+</head>
+<body>
+    <div class="header">
+        <a>Панель навигации</a>
+    </div>
+    <div style="height: 50px;">
+    </div>
+    {% block content %}
+    {% endblock %}
+</body>
+
+</html>
