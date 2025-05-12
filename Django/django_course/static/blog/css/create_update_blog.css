@@ -3,7 +3,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    height: 94 vh;
+    height: 92 vh;
 }
 
 .form{
@@ -12,10 +12,11 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 1000px;
 }
 
 .form_textarea {
     resize: none;
     border-radius: 15px;
-    width: 700px;
+    width: 1000px;
 }
