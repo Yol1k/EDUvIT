@@ -5,13 +5,13 @@ from .models import Blog, Comment
 from .forms import BlogModelForm, CommentModelForm
 
 def index(request):
-    blogs = Blog.objects.all()
+    blogs = Blog.objects.all().order_by('-date_published')
     search = request.GET.get('search')
 
     if search:
         blogs = blogs.filter(title__icontains=search)
 
-    paginator = Paginator(blogs,5)
+    paginator = Paginator(blogs,3)
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
 
@@ -20,7 +20,7 @@ def index(request):
 
 def blog_detail(request, pk):
     blog = get_object_or_404(Blog, pk=pk)
-    comments = Comment.objects.filter(blog=blog).order_by("-date_published")
+    comments = Comment.objects.filter(blog=blog).order_by('-date_published')
     title = blog.title
     form = CommentModelForm()
 
@@ -84,3 +84,6 @@ def update_blog(request, pk):
         form = BlogModelForm(instance=blog)
     return render(request, 'blog/create_update_blog.html', {'title':title, 'form':form, 'action':action})
 
+def contacts(request):
+    title = "Контакты"
+    return render(request, 'blog/contacts.html', {'title':title})
