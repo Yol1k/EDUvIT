@@ -1,0 +1,57 @@
+{% extends 'blog/layout.html' %}
+
+{% load static %}
+
+{% block title %}Контакты{% endblock %}
+
+{% block static %}
+<link rel="stylesheet" href="{% static 'blog/css/contacts.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="contacts-container">
+    <h1>Контакты</h1>
+    
+    <div class="contact-section">
+        <h2>Обращения читателей, приём официальных писем</h2>
+        <p><strong>119021 Москва, Зубовский бульвар, дом 4</strong></p>
+        <p><strong>+7 (495) 645-66-01</strong> (справочная информация)</p>
+        <p><strong>+7 (495) 637-45-45</strong> (факс канцелярии)</p>
+        <p><strong>office@ria.ru</strong> (адрес канцелярии)</p>
+    </div>
+    
+    <div class="contact-section">
+        <h2>Редакция РИА Новости</h2>
+        <p><strong>internet-group@ria.ru</strong></p>
+        <p>Чтобы связаться с редакцией или сообщить обо всех замеченных ошибках,
+        воспользуйтесь формой обратной связи.</p>
+    </div>
+    
+    <div class="contact-section">
+        <h2>Резюме</h2>
+        <p><strong>resume@ria.ru</strong> (для соискателей вакансий РИА Новости)</p>
+        <p><strong>cv@sputniknews.com</strong> (для соискателей вакансий Sputnik)</p>
+    </div>
+    
+    <div class="contact-section">
+        <h2>Коммерческие вопросы</h2>
+        <p><strong>+7 (495) 645-64-05</strong></p>
+        <p>Для заказа необходимого коммерческого продукта или услуги воспользуйтесь формой обратной связи</p>
+    </div>
+    
+    <div class="contact-section">
+        <h2>Пресс-служба</h2>
+        <p><strong>+7 (495) 645-64-11</strong></p>
+        <p><strong>media@ria.ru</strong> (медиагруппа "Россия сегодня")</p>
+        <p><strong>media@sputniknews.com</strong> (Sputnik)</p>
+    </div>
+    
+    <div class="contact-section">
+        <h2>Международный мультимедийный пресс-центр "Россия сегодня"</h2>
+        <p><strong>+7 (495) 645-64-72</strong></p>
+        <p><strong>pressria@ria.ru</strong></p>
+        <p>Подробнее о пресс-центре – на сайте <a href="https://pressria.ru" target="_blank">pressria.ru</a></p>
+    </div>
+    
+</div>
+{% endblock %}

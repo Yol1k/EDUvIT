@@ -4,58 +4,63 @@
 
 {% block static %}
 <link rel="stylesheet" href="{% static 'blog/css/blog_list.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock %}
 
 {% block content %}
     {% if user.is_superuser %}
-        <a class="btn btn-success" href="{% url 'blog:create_blog' %}"
-        style="margin: 1% 0 0 2">
-            Создать блог</a>
+        <a class="btn btn-success" style="margin: 2% 0% 1% 1%;" href="{% url 'blog:create_blog' %}">
+            <i class="fas fa-plus"></i> Создать блог
+        </a>
     {% endif %}
-    <form method="GET">
-        <input type="text" name="search" placeholder="Поиск">
-        <input type="submit" value="Найти">
+    
+    <form method="GET" class="search-form">
+        <input type="text" name="search" placeholder="Поиск по новостям">
+        <button type="submit"><i class="fas fa-search"></i> Найти</button>
     </form>
-    <div class="list">
+    
+    <div class="news">
         {% for blog in page_obj %}
-            <div class = "blog"
-            style = "
-                background-image: linear-gradient(90deg, white, lightblue);
-                background: url({{blog.image.url}}) no-repeat;
-                background-position: center;
-                background-size: cover;">
-                <div class = "content">
-                    <a href = "{{ blog.get_absolute_url }}">{{blog.title}}</a>
+            <div class="news-card">
+                <div class="news-image">
+                    <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
                 </div>
-                <div class = "blog_info">
-                    <a>{{blog.content | truncatechars:100 }}</a>
+                
+                <div class="news-content">
+                    <div class="news-header">
+                        <h3 class="news-title">
+                            <a href="{{ blog.get_absolute_url }}">{{ blog.title }}</a>
+                        </h3>
+                        {% if user.is_superuser %}
+                            <a class="edit-btn" href="{% url 'blog:update_blog' pk=blog.id %}">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                    
+                    <p class="news-text">{{ blog.content|truncatechars:150 }}</p>
+                    
+                    <div class="news-info">
+                        <span class="news-author">{{ blog.date_published }}, {{ blog.author }}</span>
+                    </div>
                 </div>
-                <a>{{blog.author}}</a>
-                {% if user.is_superuser %}
-                    <a class="btn btn-outline-warning" href="{% url 'blog:update_blog' pk=blog.id %}"
-                    style="margin: 1% 0 0 2"><i class="fa fa-pen"></i></a>
-                {% endif %}
             </div>
-            <hr>
         {% endfor %}
     </div>
 
     <div class="pagination">
-        <span class="step-links">
-            {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; first</a>
-                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-            {% endif %}
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="page-link">&laquo; Первая</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">Предыдущая</a>
+        {% endif %}
 
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-            </span>
-
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}">next</a>
-                <a href="?page={{ page_obj.paginator.run_pages }}">last &laquo;</a>
-            {% endif %}
-
+        <span class="current-page">
+            Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}
         </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="page-link">Следующая</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">Последняя &raquo;</a>
+        {% endif %}
     </div>
 {% endblock %}

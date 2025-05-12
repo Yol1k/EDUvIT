@@ -9,6 +9,7 @@
     <div class="blog_detail">
         <a class = "angle btn btn-light" href="{% url 'blog:blog_detail' pk=blog.id %}?post=prev"><i class = "fa fa-angle-left"></i></a>
         <div class="content">
+            <h3 class="blog_title">{{ blog.title }}</h3>
             <img src="{{ blog.image.url }}">
             <div class = "blog_text"><a>{{ blog.content|linebreaks }}</a></div>
             <div class="blog_info">

@@ -22,14 +22,14 @@
     <div class="header">
         <div class = "left_side">
             <a class = "btn btn-primary" href = "{% url 'blog:index' %}" >Главная страница</a>
-            <a class = "btn btn-primary" href = "">Контакты</a>
+            <a class = "btn btn-primary" href = "{% url 'blog:contacts' %}">Контакты</a>
         </div>
         <div class = "middle">
-            <a style = "font-size: 35; color: black; margin-left: 50px; text-decoration: none;">{{ title }}</a>
+            <a><img src="/media/images/logo.png"></a>
         </div>
         <div class = "right_side">
             {% if user.is_authenticated %}
-                <a>Привет, {{user.username}} </a>
+                <a>Добро пожаловать, {{user.username}} </a>
                 {% if user.is_superuser%}
                     <a class = "btn btn-primary" href = "{% url 'admin:index' %}" ><i class="fa fa-cog"></i></a>
                 {% endif %}
